@@ -4,6 +4,7 @@ import { importProvidersFrom } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { AuthGuard } from "./app/ui/components/auth/guards/auth.guard";
 import { provideHttpClient } from "@angular/common/http";
+import { UcafsComponent } from "./app/ui/components/ucafs/ucafs.component";
 
 bootstrapApplication(AppComponent,{
   providers:[
@@ -19,6 +20,10 @@ bootstrapApplication(AppComponent,{
             {
               path:"",
               loadComponent:()=> import("./app/ui/components/blank/blank.component").then(c=>c.BlankComponent)
+            },
+            {
+              path:"ucafs",
+              loadComponent:()=> import("./app/ui/components/ucafs/ucafs.component").then(c=>UcafsComponent)
             }
           ]
         },

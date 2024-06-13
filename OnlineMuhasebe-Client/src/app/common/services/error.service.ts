@@ -8,10 +8,10 @@ import { ToastrService, ToastrType } from './toastr.service';
 export class ErrorService {
 
   constructor(
-    private _toastr: ToastrService
-  ) { }
+    private _toastr:ToastrService
+   ) { }
 
-  errorHandler(err: HttpErrorResponse){   
+   errorHandler(err: HttpErrorResponse){  
     switch (err.status) {
       case 0:
         this._toastr.toast(ToastrType.Error,"Hata!","Api adresine ulaşılamıyor!");

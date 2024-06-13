@@ -8,5 +8,4 @@ import { Component } from '@angular/core';
   styleUrl: './blank.component.css'
 })
 export class BlankComponent {
-
 }

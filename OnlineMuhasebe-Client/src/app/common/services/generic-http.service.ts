@@ -9,6 +9,7 @@ export class GenericHttpService {
 
   apiUrl: string="";
   token:string=localStorage.getItem("accessToken")?.toString();
+  
   constructor(
     private _http:HttpClient,
     private _error:ErrorService

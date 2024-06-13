@@ -3,6 +3,8 @@ import { Component } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { ValidInputDirective } from '../../../../common/directives/valid-input.directive';
+import { AuthService } from '../services/auth.service';
+import { ToastrService, ToastrType } from '../../../../common/services/toastr.service';
 
 @Component({
   selector: 'app-login',
@@ -12,9 +14,17 @@ import { ValidInputDirective } from '../../../../common/directives/valid-input.d
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
+
+  constructor(
+    private _auth:AuthService,
+    private _toastr:ToastrService
+  ){
+    _toastr.toast(ToastrType.Success,"Deneme Başlık","Deneme içerik")
+  }
+
   login(form:NgForm){
     if(form.valid){
-      console.log(form.value)
+      this._auth.login(form.value);
     }
   }
 }
