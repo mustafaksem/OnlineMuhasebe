@@ -2,10 +2,6 @@
 using FluentValidation.Results;
 using MediatR;
 using OnlineMuhasebeServer.Application.Messaging;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace OnlineMuhasebeServer.Application.Behavior
 {
@@ -29,18 +25,22 @@ namespace OnlineMuhasebeServer.Application.Behavior
 
             var context = new ValidationContext<TRequest>(request);
 
-            var validationResults = _validators
+            var errorDictionary = _validators
                 .Select(x => x.Validate(context))
                 .SelectMany(x => x.Errors)
                 .Where(x => x != null)
-                .ToList();
+                .GroupBy(
+                x => x.PropertyName,
+                x => x.ErrorMessage, (propertyName, errorMessage) => new
+                {
+                    Key = propertyName,
+                    Values = errorMessage.Distinct().ToArray()
+                })
+                .ToDictionary(x => x.Key, x => x.Values[0]);
 
-            if (validationResults.Any())
+            if (errorDictionary.Any())
             {
-                var errors = validationResults
-                    .Select(error => new ValidationFailure(error.ErrorMessage, error.PropertyName))
-                    .ToList();
-
+                var errors = errorDictionary.Select(s => new ValidationFailure(s.Key, s.Value));
                 throw new ValidationException(errors);
             }
 

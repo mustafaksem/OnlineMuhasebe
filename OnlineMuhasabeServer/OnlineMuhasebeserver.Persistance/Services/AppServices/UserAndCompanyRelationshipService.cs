@@ -38,6 +38,7 @@ public class UserAndCompanyRelationshipService : IUserAndCompanyRelationshipServ
     public async Task<IList<UserAndCompanyRelationship>> GetListByUserId(string userId)
     {
         return await _queryRepository.GetWhere(p => p.AppUserId == userId).Include("Company").ToListAsync();
+
     }
 
     public async Task RemoveByIdAsync(string id)

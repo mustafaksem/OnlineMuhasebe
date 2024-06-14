@@ -2,23 +2,24 @@
 using OnlineMuhasebeServer.Application.Services.CompanyServices;
 using OnlineMuhasebeServer.Domain.CompanyEntities;
 
-namespace OnlineMuhasebeServer.Application.Features.CompanyFeatures.UCAFFeatures.Command.CreateUCAF;
-
-public sealed class CreateUCAFCommandHandler : ICommandHandler<CreateUCAFCommand, CreateUCAFCommandResponse>
+namespace OnlineMuhasebeServer.Application.Features.CompanyFeatures.UCAFFeatures.Commands.CreateUCAF
 {
-    private readonly IUCAFService _ucafService;
-
-    public CreateUCAFCommandHandler(IUCAFService ucafService)
+    public sealed class CreateUCAFCommandHandler : ICommandHandler<CreateUCAFCommand, CreateUCAFCommandResponse>
     {
-        _ucafService = ucafService;
-    }
+        private readonly IUCAFService _ucafService;
 
-    public async Task<CreateUCAFCommandResponse> Handle(CreateUCAFCommand request, CancellationToken cancellationToken)
-    {
-        UniformChartOfAccount ucaf = await _ucafService.GetByCode(request.Code, cancellationToken);
-        if (ucaf != null) throw new Exception("Bu hesap plnı kodu daha önce tanımlanmıştır! ");
+        public CreateUCAFCommandHandler(IUCAFService ucafService)
+        {
+            _ucafService = ucafService;
+        }
 
-        await _ucafService.CreateUCAFAsync(request, cancellationToken);
-        return new();
+        public async Task<CreateUCAFCommandResponse> Handle(CreateUCAFCommand request, CancellationToken cancellationToken)
+        {
+            UniformChartOfAccount ucaf = await _ucafService.GetByCodeAsync(request.CompanyId, request.Code, cancellationToken);
+            if (ucaf != null) throw new Exception("Bu hesap planı kodu daha önce tanımlanmış!");
+
+            await _ucafService.CreateUcafAsync(request, cancellationToken);
+            return new();
+        }
     }
 }

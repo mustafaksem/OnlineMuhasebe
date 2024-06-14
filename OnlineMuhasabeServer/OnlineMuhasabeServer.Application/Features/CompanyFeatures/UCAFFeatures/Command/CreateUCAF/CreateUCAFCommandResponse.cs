@@ -1,5 +1,5 @@
-﻿namespace OnlineMuhasebeServer.Application.Features.CompanyFeatures.UCAFFeatures.Command.CreateUCAF
+﻿namespace OnlineMuhasebeServer.Application.Features.CompanyFeatures.UCAFFeatures.Commands.CreateUCAF
 {
     public sealed record CreateUCAFCommandResponse(
-        string Message = "Hesap planı kaydı başarı ile tamamnlandı!");
+        string Message = "Hesap Planı kaydı başarıyla tamamlandı!");
 }

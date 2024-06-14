@@ -9,17 +9,16 @@ public class CompanyDbQueryRepository<T> : ICompanyDbQueryRepository<T>
     where T : Entity
 {
     private static readonly Func<Context.CompanyDbContext, string, bool, Task<T>> GetByIdCompiled =
-        EF.CompileAsyncQuery((Context.CompanyDbContext contex, string id, bool isTracking) =>
-
-        isTracking == true
-        ? contex.Set<T>().FirstOrDefault(p => p.Id == id)
-        : contex.Set<T>().AsNoTracking().FirstOrDefault(p => p.Id == id));
+        EF.CompileAsyncQuery((Context.CompanyDbContext context, string id, bool isTracking) =>
+            isTracking == true
+            ? context.Set<T>().FirstOrDefault(p => p.Id == id)
+            : context.Set<T>().AsNoTracking().FirstOrDefault(p => p.Id == id));
 
     private static readonly Func<Context.CompanyDbContext, bool, Task<T>> GetFirstCompiled =
-     EF.CompileAsyncQuery((Context.CompanyDbContext contex, bool isTracking) =>
-     isTracking == true
-     ? contex.Set<T>().FirstOrDefault()
-     : contex.Set<T>().AsNoTracking().FirstOrDefault());
+       EF.CompileAsyncQuery((Context.CompanyDbContext context, bool isTracking) =>
+            isTracking == true
+            ? context.Set<T>().FirstOrDefault()
+            : context.Set<T>().AsNoTracking().FirstOrDefault());
 
     private Context.CompanyDbContext _context;
     public DbSet<T> Entity { get; set; }
@@ -51,7 +50,6 @@ public class CompanyDbQueryRepository<T> : ICompanyDbQueryRepository<T>
     public async Task<T> GetFirstByExpiression(Expression<Func<T, bool>> expression, CancellationToken cancellationToken = default, bool isTracking = true)
     {
         T entity = null;
-
         if (!isTracking)
             entity = await Entity.AsNoTracking().Where(expression).FirstOrDefaultAsync();
         else
@@ -63,11 +61,8 @@ public class CompanyDbQueryRepository<T> : ICompanyDbQueryRepository<T>
     public IQueryable<T> GetWhere(Expression<Func<T, bool>> expression, bool isTracking = true)
     {
         var result = Entity.Where(expression);
-
         if (!isTracking)
             result = result.AsNoTracking();
         return result;
     }
-
-
 }

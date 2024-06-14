@@ -45,7 +45,7 @@ namespace OnlineMuhasebeServer.Persistance.Migrations.CompanyDb
 
                     b.HasKey("Id");
 
-                    b.ToTable("UniformChartOfAccounts", (string)null);
+                    b.ToTable("UniformChartOfAccounts");
                 });
 #pragma warning restore 612, 618
         }
