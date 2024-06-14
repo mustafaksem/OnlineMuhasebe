@@ -15,12 +15,12 @@ public sealed class CreateUCAFCommandUnitTest
         _ucafService = new();
     }
 
-    //[Fact]
-    //public async Task UCAFShouldBeNull()
-    //{
-    //    UniformChartOfAccount ucaf = await _ucafService.Object.GetByCode("100.01.001", default);
-    //    ucaf.ShouldBeNull();
-    //}
+    [Fact]
+    public async Task UCAFShouldBeNull()
+    {
+        UniformChartOfAccount ucaf = await _ucafService.Object.GetByCodeAsync("100.01.001", "585985c0-4576-4d62-ae67-59a6f72ae906", default);
+        ucaf.ShouldBeNull();
+    }
 
     [Fact]
     public async Task CreateUCAFCommandResponseShouldNotBeNull()

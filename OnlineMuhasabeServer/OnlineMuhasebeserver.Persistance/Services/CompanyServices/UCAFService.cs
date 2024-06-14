@@ -28,6 +28,24 @@ namespace OnlineMuhasebeServer.Persistance.Services.CompanyServices
             _queryRepository = queryRepository;
         }
 
+        public async Task<bool> CheckRemoveByIdUcafIsGroupAndAvailable(string id, string companyId)
+        {
+            _context = (CompanyDbContext)_contextService.CreateDbContextInstance(companyId);
+            _queryRepository.SetDbContextInstance(_context);
+
+            UniformChartOfAccount ucaf= await _queryRepository.GetById(id);
+            if (ucaf.Type == 'G')
+            {
+                IList<UniformChartOfAccount> list= await _queryRepository.GetWhere(p=>p.Code.StartsWith(ucaf.Code) && p.Type == 'M').ToListAsync();
+                if(list.Count()>0) 
+                {
+                    return true;
+                }
+                return false;
+            }
+            return true;
+        }
+
         public async Task CreateMainUcafsToCompanyAsync(string companyId, CancellationToken cancellationToken)
         {
             _context = (CompanyDbContext)_contextService.CreateDbContextInstance(companyId);
@@ -2209,6 +2227,7 @@ namespace OnlineMuhasebeServer.Persistance.Services.CompanyServices
             UniformChartOfAccount uniformChartOfAccount = _mapper.Map<UniformChartOfAccount>(request);
 
             uniformChartOfAccount.Id = Guid.NewGuid().ToString();
+            uniformChartOfAccount.Name = uniformChartOfAccount.Name.ToUpper();
 
             await _commandRepository.AddAsync(uniformChartOfAccount, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
@@ -2228,6 +2247,16 @@ namespace OnlineMuhasebeServer.Persistance.Services.CompanyServices
             _queryRepository.SetDbContextInstance(_context);
 
             return await _queryRepository.GetFirstByExpiression(p => p.Code == code, cancellationToken);
+        }
+
+        public async Task RemoveByIdUcafAsync(string id, string companyId)
+        {
+            _context = (CompanyDbContext)_contextService.CreateDbContextInstance(companyId);
+            _commandRepository.SetDbContextInstance(_context);
+            _unitOfWork.SetDbContextInstance(_context);
+
+            await _commandRepository.RemoveById(id);
+            await _unitOfWork.SaveChangesAsync();
         }
     }
 }
