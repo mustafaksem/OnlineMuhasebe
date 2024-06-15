@@ -13,6 +13,7 @@ import { ToastrService, ToastrType } from '../../../common/services/toastr.servi
 import { LoadingButtonComponent } from '../../../common/component/loading-button/loading-button.component';
 import { RemoveByIdUcafModel } from './models/remove-by-id-ucaf.model';
 import { mode } from 'crypto-ts';
+import { SwalService } from '../../../common/services/swal.service';
 
 @Component({
   selector: 'app-ucafs',
@@ -43,14 +44,19 @@ navs:NavModel[]=[
 ]
 
 ucafs:UcafModel[]=[];
-filterText: string="";
-isAddForm:boolean=false;
+updateModel: UcafModel=new UcafModel();
 ucafType:string="M";
+filterText: string="";
+
 isLoading: boolean = false;
+
+isAddForm:boolean=false;
+isUpdateForm: boolean=false;
 
 constructor(
   private _ucaf:UcafService,
-  private _toastr:ToastrService
+  private _toastr:ToastrService,
+  private _swal:SwalService
 ){}
 
   ngOnInit(): void {
@@ -73,27 +79,58 @@ constructor(
       model.name=form.controls["name"].value;
 
       this._ucaf.add(model,(res)=>{
-        form.reset();
+        form.controls["code"].setValue("");
+        form.controls["name"].setValue("");
         this.ucafType="M";
+
         this.getAll();
         this.isLoading=false;
         this._toastr.toast(ToastrType.Success,res.message,"Başarılı");
       });
     }
   }
+  
+  get(model: UcafModel){
+    this.updateModel={...model};
+    this.isUpdateForm=true;
+    this.isAddForm=false;
+  }
+
+  update(form:NgForm){
+    if(form.valid){
+      this._ucaf.update(this.updateModel, (res) => {        
+        this.cancel();
+        this.getAll();        
+        this._toastr.toast(ToastrType.Info, res.message, "Başarılı!");
+      });
+    }
+}
+
+  cancel(){
+    this.isAddForm=false;
+    this.isUpdateForm=false;
+  }
 
   removeById(id:string){
-    var result=confirm("Silme işlemini yapmak istiyor musunuz?");
-    if(result){
+
+    this._swal.callSwal("Sil","Sil?","Hesap planı kodunu silmek istiyor musunuz?",()=>{
       let model=new RemoveByIdUcafModel();
       model.id=id;
 
       this._ucaf.removeById(model,res=>{
         this.getAll();
         this._toastr.toast(ToastrType.Info,res.message,"Silme Başarılı.");
-      })
-    }
+      });
+    });
   }
 
+  setTrClass(type:string){
+    if(type=="A")
+      return "";
+    else if(type=="G")
+      return "text-primary";
+    else
+      return "text-danger";
+  }    
 
 }

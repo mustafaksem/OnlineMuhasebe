@@ -5,12 +5,14 @@ import { RouterModule } from "@angular/router";
 import { AuthGuard } from "./app/ui/components/auth/guards/auth.guard";
 import { provideHttpClient } from "@angular/common/http";
 import { UcafsComponent } from "./app/ui/components/ucafs/ucafs.component";
+import { SweetAlert2Module } from "@sweetalert2/ngx-sweetalert2";
 
 bootstrapApplication(AppComponent,{
   providers:[
     provideHttpClient(),
     importProvidersFrom(
       BrowserModule,
+      SweetAlert2Module.forRoot(),
       RouterModule.forRoot([
         {
           path:"",

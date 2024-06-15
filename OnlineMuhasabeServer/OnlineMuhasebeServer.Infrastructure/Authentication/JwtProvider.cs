@@ -31,7 +31,7 @@ namespace OnlineMuhasebeServer.Infrastructure.Authentication
                 //new Claim(ClaimTypes.Role, String.Join(",",roles))
             };
 
-            DateTime expires =DateTime.Now.AddDays(1);
+            DateTime expires =DateTime.Now.AddMinutes(1);
 
             JwtSecurityToken jwtSecurityToken = new(
                 issuer: _jwtOptions.Issuer,

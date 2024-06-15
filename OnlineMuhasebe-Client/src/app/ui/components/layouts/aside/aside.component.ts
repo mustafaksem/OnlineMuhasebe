@@ -16,14 +16,4 @@ import { AuthService } from '../../auth/services/auth.service';
 export class AsideComponent {
   @Input() loginResponse: LoginResponseModel = new LoginResponseModel();
   navigations=Navigations;
-
-  constructor(
-    private _auth:AuthService
-  ){
-
-  }
-
-  logout(){
-    this._auth.logout();
-  }
 }

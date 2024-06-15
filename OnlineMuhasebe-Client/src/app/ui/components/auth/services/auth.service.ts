@@ -28,4 +28,9 @@ export class AuthService {
     localStorage.removeItem("accessToken");
     this._router.navigateByUrl("/login");
   }
+
+  changeYear(model: LoginResponseModel){
+    let cryptoValue = this._cyrpto.encrypto(JSON.stringify(model));
+    localStorage.setItem("accessToken",cryptoValue);
+  }
 }
