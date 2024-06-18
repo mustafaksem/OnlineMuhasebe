@@ -41,6 +41,7 @@ public sealed class CompanyDbContext : DbContext
     }
 
     public DbSet<UniformChartOfAccount> UniformChartOfAccounts { get; set; }
+    public DbSet<Report> Reports { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -71,7 +72,7 @@ public sealed class CompanyDbContext : DbContext
 
             if (entry.State == EntityState.Modified)
             {
-                entry.Property(p => p.UpdateTime)
+                entry.Property(p => p.UpdatedDate)
                     .CurrentValue = DateTime.Now;
             }
         }

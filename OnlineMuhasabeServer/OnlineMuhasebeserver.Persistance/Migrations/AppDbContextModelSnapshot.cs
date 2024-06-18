@@ -60,7 +60,7 @@ namespace OnlineMuhasebeServer.Persistance.Migrations
                     b.Property<string>("Tel")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("UpdateTime")
+                    b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -171,7 +171,7 @@ namespace OnlineMuhasebeServer.Persistance.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("UpdateTime")
+                    b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -195,7 +195,7 @@ namespace OnlineMuhasebeServer.Persistance.Migrations
                     b.Property<string>("RoleId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime?>("UpdateTime")
+                    b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -221,7 +221,7 @@ namespace OnlineMuhasebeServer.Persistance.Migrations
                     b.Property<string>("MainRoleId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime?>("UpdateTime")
+                    b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UserId")
@@ -252,7 +252,7 @@ namespace OnlineMuhasebeServer.Persistance.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("UpdateTime")
+                    b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");

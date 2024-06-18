@@ -34,7 +34,7 @@ public sealed class AppDbContext : IdentityDbContext<AppUser, AppRole, string>
 
             if (entry.State == EntityState.Modified)
             {
-                entry.Property(p => p.UpdateTime)
+                entry.Property(p => p.UpdatedDate)
                     .CurrentValue = DateTime.Now;
             }
         }

@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { BlankComponent } from '../../../common/component/blank/blank.component';
 import { SectionComponent } from '../../../common/component/blank/section/section.component';
 import { NavModel } from '../../../common/component/blank/models/nav.model';
-import { RouterLink } from '@angular/router';
 import { UcafService } from './services/ucaf.service';
 import { UcafModel } from './models/ucaf.model';
 import { UcafPipe } from './pipes/ucaf.pipe';
@@ -12,8 +11,12 @@ import { ValidInputDirective } from '../../../common/directives/valid-input.dire
 import { ToastrService, ToastrType } from '../../../common/services/toastr.service';
 import { LoadingButtonComponent } from '../../../common/component/loading-button/loading-button.component';
 import { RemoveByIdUcafModel } from './models/remove-by-id-ucaf.model';
-import { mode } from 'crypto-ts';
 import { SwalService } from '../../../common/services/swal.service';
+import { ExcelLoadingButtonComponent } from '../../../common/component/excel-loading-button/excel-loading-button.component';
+import { ReportRequestModel } from '../../../common/models/report-request.model';
+import { ReportService } from '../reports/services/report.service';
+import { mode } from 'crypto-ts';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-ucafs',
@@ -25,7 +28,8 @@ import { SwalService } from '../../../common/services/swal.service';
     FormsModule,
     ValidInputDirective,
     FormsModule,
-    LoadingButtonComponent],
+    LoadingButtonComponent,
+  ExcelLoadingButtonComponent],
   templateUrl: './ucafs.component.html',
   styleUrl: './ucafs.component.css'
 })
@@ -56,7 +60,9 @@ isUpdateForm: boolean=false;
 constructor(
   private _ucaf:UcafService,
   private _toastr:ToastrService,
-  private _swal:SwalService
+  private _swal:SwalService,
+  private _report:ReportService,
+  private _router:Router
 ){}
 
   ngOnInit(): void {
@@ -72,7 +78,6 @@ constructor(
   }
   add(form:NgForm){
     if(form.valid){
-      this.isLoading=true;
       let model=new UcafModel();
       model.code=form.controls["code"].value;
       model.type=form.controls["type"].value;
@@ -84,7 +89,6 @@ constructor(
         this.ucafType="M";
 
         this.getAll();
-        this.isLoading=false;
         this._toastr.toast(ToastrType.Success,res.message,"Başarılı");
       });
     }
@@ -131,6 +135,16 @@ constructor(
       return "text-primary";
     else
       return "text-danger";
-  }    
+  }  
+  
+  exportExcel(){
+    let model:ReportRequestModel =new ReportRequestModel();
+    model.name="Hesap Planı";
+
+    this._report.request(model,(res)=>{
+      this._toastr.toast(ToastrType.Info,res.message);
+      this._router.navigateByUrl("/reports");
+    })
+  }
 
 }

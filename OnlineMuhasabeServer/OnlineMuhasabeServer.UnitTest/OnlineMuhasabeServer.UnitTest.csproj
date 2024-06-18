@@ -10,6 +10,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Features\CompanyFeatures\Queries\**" />
+    <EmbeddedResource Remove="Features\CompanyFeatures\Queries\**" />
+    <None Remove="Features\CompanyFeatures\Queries\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.0" />
     <PackageReference Include="Moq" Version="4.20.70" />
     <PackageReference Include="Shouldly" Version="4.2.1" />
@@ -27,7 +33,6 @@
   <ItemGroup>
     <Folder Include="Features\AppFeatures\AppUserFeatures\Queries\" />
     <Folder Include="Features\AppFeatures\CompanyFeatures\Queries\" />
-    <Folder Include="Features\CompanyFeatures\Queries\" />
   </ItemGroup>
 
   <ItemGroup>

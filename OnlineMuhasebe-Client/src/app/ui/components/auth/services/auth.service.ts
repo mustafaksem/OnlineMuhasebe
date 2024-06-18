@@ -3,6 +3,7 @@ import { GenericHttpService } from '../../../../common/services/generic-http.ser
 import { LoginResponseModel } from '../models/login-response.model';
 import { Router } from '@angular/router';
 import { CyrptoService } from '../../../../common/services/crypto.service';
+import { changeLoading } from '../../../../common/states/loading/loading-actions';
 
 @Injectable({
   providedIn: 'root'
@@ -33,4 +34,6 @@ export class AuthService {
     let cryptoValue = this._cyrpto.encrypto(JSON.stringify(model));
     localStorage.setItem("accessToken",cryptoValue);
   }
+
+  
 }

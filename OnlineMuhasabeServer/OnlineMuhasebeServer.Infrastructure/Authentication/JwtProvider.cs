@@ -46,7 +46,7 @@ namespace OnlineMuhasebeServer.Infrastructure.Authentication
 
             string refreshToken = Convert.ToBase64String(RandomNumberGenerator.GetBytes(32));
             user.RefreshToken = refreshToken;
-            user.RefreshTokenExpires=expires.AddDays(1);
+            user.RefreshTokenExpires=expires.AddMinutes(60);
             await _userManager.UpdateAsync(user);
 
             return new(token,refreshToken,user.RefreshTokenExpires);
