@@ -31,7 +31,7 @@ namespace OnlineMuhasebeServer.Infrastructure.Authentication
                 //new Claim(ClaimTypes.Role, String.Join(",",roles))
             };
 
-            DateTime expires =DateTime.Now.AddMinutes(1);
+            DateTime expires =DateTime.Now.AddDays(1);
 
             JwtSecurityToken jwtSecurityToken = new(
                 issuer: _jwtOptions.Issuer,
@@ -46,7 +46,7 @@ namespace OnlineMuhasebeServer.Infrastructure.Authentication
 
             string refreshToken = Convert.ToBase64String(RandomNumberGenerator.GetBytes(32));
             user.RefreshToken = refreshToken;
-            user.RefreshTokenExpires=expires.AddMinutes(60);
+            user.RefreshTokenExpires=expires.AddDays(1);
             await _userManager.UpdateAsync(user);
 
             return new(token,refreshToken,user.RefreshTokenExpires);

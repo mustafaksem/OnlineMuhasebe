@@ -5,6 +5,7 @@ import { SectionComponent } from '../../../common/component/blank/section/sectio
 import { NavModel } from '../../../common/component/blank/models/nav.model';
 import { ReportModel } from './models/report.model';
 import { ReportService } from './services/report.service';
+import { PaginationResultModel } from '../../../common/models/pagination-result.model';
 
 
 @Component({
@@ -28,7 +29,11 @@ export class ReportsComponent implements OnInit,OnDestroy {
   }
   ]
 
-  reports:ReportModel[]=[];
+  result: PaginationResultModel<ReportModel[]> = new PaginationResultModel<ReportModel[]>;
+
+  pageNumber:number=1;
+  pageSize:number=5;
+  pageNumbers:number[]=[];
 
   count :number=0;
   interval:any;
@@ -43,17 +48,24 @@ export class ReportsComponent implements OnInit,OnDestroy {
   ngOnInit(){
     this.getAll();
     this.interval=setInterval(()=>{
-      if(this.count<5){
+      if(this.count<25){
         this.count++;
-        this.getAll();
+        this.getAll(this.pageNumber);
       }else{
         clearInterval(this.interval);
       }
     },5000)
   }
 
-  getAll(){
-    this._report.getAll(res=> this.reports=res);
+  getAll(pageNumber:number=1){
+    this.pageNumber=pageNumber;
+    this._report.getAll(this.pageNumber,this.pageSize,res=>{
+      this.result=res;
+      this.pageNumbers=[];
+      for(let i=0; i<res.totalPages;i++){
+        this.pageNumbers.push(i+1);
+      }
+    });
   }
 
   changeSpanClassByStatus(status:boolean){

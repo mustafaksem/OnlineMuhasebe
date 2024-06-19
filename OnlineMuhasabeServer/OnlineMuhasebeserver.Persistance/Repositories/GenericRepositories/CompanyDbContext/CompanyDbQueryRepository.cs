@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using EntityFrameworkCorePagination.Nuget.Pagination;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using OnlineMuhasebeServer.Domain.Abstractions;
 using OnlineMuhasebeServer.Domain.Repositories.GenericRepositories.CompanyDbContext;
 using System.Linq.Expressions;
@@ -61,4 +63,5 @@ public class CompanyDbQueryRepository<T> : ICompanyDbQueryRepository<T>
             result = result.AsNoTracking();
         return result;
     }
+
 }

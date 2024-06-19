@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using EntityFrameworkCorePagination.Nuget.Pagination;
+using Microsoft.EntityFrameworkCore;
 using OnlineMuhasebeServer.Domain.Abstractions;
 using OnlineMuhasebeServer.Domain.Repositories.GenericRepositories.AppDbContext;
 using System.Linq.Expressions;
@@ -37,6 +38,8 @@ public class AppQueryRepository<T> : IAppQueryRepository<T>
         return result;
     }
 
+    
+
     public async Task<T> GetById(string id, bool isTracking = true)
     {
         return await GetByIdCompiled(_context, id, isTracking);
@@ -69,4 +72,6 @@ public class AppQueryRepository<T> : IAppQueryRepository<T>
             result = result.AsNoTracking();
         return result;
     }
+
+    
 }

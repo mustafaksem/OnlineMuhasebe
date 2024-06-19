@@ -1,4 +1,5 @@
-﻿using OnlineMuhasebeServer.Domain.Abstractions;
+﻿using EntityFrameworkCorePagination.Nuget.Pagination;
+using OnlineMuhasebeServer.Domain.Abstractions;
 using System.Linq.Expressions;
 
 namespace OnlineMuhasebeServer.Domain.Repositories.GenericRepositories;
