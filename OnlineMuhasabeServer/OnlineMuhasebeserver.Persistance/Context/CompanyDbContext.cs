@@ -42,6 +42,8 @@ public sealed class CompanyDbContext : DbContext
 
     public DbSet<UniformChartOfAccount> UniformChartOfAccounts { get; set; }
     public DbSet<Report> Reports { get; set; }
+    public DbSet<Log> Logs { get; set; }
+    public DbSet<BookEntry> BookEntries { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

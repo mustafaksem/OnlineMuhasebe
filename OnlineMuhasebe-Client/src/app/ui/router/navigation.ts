@@ -28,6 +28,6 @@ export const Navigations: Navigation[] = [
     {
         routerLink: "/logs",
         name: "Log Kayıtları",
-        icon: "fa fa-book"        
+        icon: "fa fa-chalkboard-user"        
     }
 ]

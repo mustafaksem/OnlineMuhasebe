@@ -1,5 +1,6 @@
 ﻿using Moq;
 using OnlineMuhasebeServer.Application.Features.CompanyFeatures.UCAFFeatures.Command.RemoveByIdUCAF;
+using OnlineMuhasebeServer.Application.Services;
 using OnlineMuhasebeServer.Application.Services.CompanyServices;
 using Shouldly;
 
@@ -8,11 +9,16 @@ namespace OnlineMuhasebeServer.UnitTest.Features.CompanyFeatures.UCAFeatures;
 public sealed class RemoveByIdUCAFCommandUnitTest
 {
     private readonly Mock<IUCAFService> _ucafService;
+    private readonly Mock<IApiService> _apiService;
+    private readonly Mock<ILogService> _logService;
 
     public RemoveByIdUCAFCommandUnitTest()
     {
         _ucafService = new();
+        _apiService = new();
+        _logService = new();
     }
+
     [Fact]
     public async Task CheckRemoveByIdUcafIsGroupAndAvailableShouldBeTrue()
     {
@@ -32,7 +38,7 @@ public sealed class RemoveByIdUCAFCommandUnitTest
 
         await CheckRemoveByIdUcafIsGroupAndAvailableShouldBeTrue();
 
-        var handler=new RemoveByIdUCAFCommandHandler(_ucafService.Object);
+        var handler=new RemoveByIdUCAFCommandHandler(_ucafService.Object, _logService.Object, _apiService.Object);
         RemoveByIdUCAFCommandResponse response = await handler.Handle(command,default);
         response.ShouldNotBeNull();
         response.Message.ShouldNotBeEmpty();

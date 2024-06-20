@@ -2218,7 +2218,7 @@ namespace OnlineMuhasebeServer.Persistance.Services.CompanyServices
             await _unitOfWork.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task CreateUcafAsync(CreateUCAFCommand request, CancellationToken cancellationToken)
+        public async Task<UniformChartOfAccount> CreateUcafAsync(CreateUCAFCommand request, CancellationToken cancellationToken)
         {
             _context = (CompanyDbContext)_contextService.CreateDbContextInstance(request.CompanyId);
             _commandRepository.SetDbContextInstance(_context);
@@ -2231,6 +2231,8 @@ namespace OnlineMuhasebeServer.Persistance.Services.CompanyServices
 
             await _commandRepository.AddAsync(uniformChartOfAccount, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            return uniformChartOfAccount;
         }
 
         public async Task<IList<UniformChartOfAccount>> GetAllAsync(string companyId)
@@ -2256,14 +2258,18 @@ namespace OnlineMuhasebeServer.Persistance.Services.CompanyServices
             return await _queryRepository.GetById(id);
         }
 
-        public async Task RemoveByIdUcafAsync(string id, string companyId)
+        public async Task<UniformChartOfAccount> RemoveByIdUcafAsync(string id, string companyId)
         {
             _context = (CompanyDbContext)_contextService.CreateDbContextInstance(companyId);
             _commandRepository.SetDbContextInstance(_context);
             _unitOfWork.SetDbContextInstance(_context);
 
+            UniformChartOfAccount ucaf=await _queryRepository.GetById(id);
+
             await _commandRepository.RemoveById(id);
             await _unitOfWork.SaveChangesAsync();
+
+            return ucaf;
         }
 
         public async Task UpdateAsync(UniformChartOfAccount ucaf, string companyId)
