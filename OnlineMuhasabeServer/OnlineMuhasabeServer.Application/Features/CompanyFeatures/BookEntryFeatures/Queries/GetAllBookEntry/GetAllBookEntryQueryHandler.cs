@@ -1,5 +1,6 @@
 ﻿using EntityFrameworkCorePagination.Nuget.Pagination;
 using OnlineMuhasebeServer.Application.Messaging;
+using OnlineMuhasebeServer.Application.Services;
 using OnlineMuhasebeServer.Application.Services.CompanyServices;
 using OnlineMuhasebeServer.Domain.CompanyEntities;
 
@@ -16,7 +17,8 @@ public sealed class GetAllBookEntryQueryHandler : IQueryHandler<GetAllBookEntryQ
 
     public async Task<PaginationResult<GetAllBookEntryQueryResponse>> Handle(GetAllBookEntryQuery request, CancellationToken cancellationToken)
     {
-        PaginationResult<BookEntry> result = await _bookEntryService.GetAllAsync(request.CompanyId, request.PageNumber, request.PageSize);
+
+        PaginationResult<BookEntry> result = await _bookEntryService.GetAllAsync(request.CompanyId, request.PageNumber, request.PageSize,request.Year);
 
         int count =_bookEntryService.GetCount(request.CompanyId);
 

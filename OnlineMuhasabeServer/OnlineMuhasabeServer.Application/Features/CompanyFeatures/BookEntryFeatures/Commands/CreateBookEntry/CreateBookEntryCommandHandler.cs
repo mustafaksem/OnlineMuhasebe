@@ -23,6 +23,7 @@ public sealed class CreateBookEntryCommandHandler : ICommandHandler<CreateBookEn
     {
         string newBookEntryNumber = await _bookEntryService.GetNewBookEntryNumber(request.CompanyId);
 
+
         BookEntry bookEntry = new()
         {
             Id = Guid.NewGuid().ToString(),

@@ -9,9 +9,11 @@ import { SweetAlert2Module } from "@sweetalert2/ngx-sweetalert2";
 import { StoreModule } from "@ngrx/store";
 import { loadingReducer } from "./app/common/states/loading/loading-reducer";
 import { ReportsComponent } from "./app/ui/components/reports/reports.component";
+import { DatePipe } from "@angular/common";
 
 bootstrapApplication(AppComponent,{
   providers:[
+    DatePipe,
     provideHttpClient(),
     importProvidersFrom(
       BrowserModule,
@@ -38,6 +40,10 @@ bootstrapApplication(AppComponent,{
             {
               path: "logs",
               loadComponent: ()=> import("./app/ui/components/logs/logs.component").then(c=> c.LogsComponent)
+            },
+            {
+              path: "book-entries",
+              loadComponent: ()=> import("./app/ui/components/book-entries/book-entries.component").then(c=> c.BookEntriesComponent)
             }
           ]
         },

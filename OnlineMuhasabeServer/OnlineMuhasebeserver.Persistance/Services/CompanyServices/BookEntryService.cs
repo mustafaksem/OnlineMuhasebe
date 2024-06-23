@@ -28,6 +28,7 @@ public class BookEntryService : IBookEntryService
     {
         _context = (CompanyDbContext)_contextService.CreateDbContextInstance(companyId);
         _commandRepository.SetDbContextInstance(_context);
+        _unitOfWork.SetDbContextInstance(_context);
 
         await _commandRepository.AddAsync(bookEntry, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
@@ -55,12 +56,15 @@ public class BookEntryService : IBookEntryService
         return newBookEntryNumber;
     }
 
-    public async Task<PaginationResult<BookEntry>> GetAllAsync(string companyId, int pageNumber, int pageSize)
+    public async Task<PaginationResult<BookEntry>> GetAllAsync(string companyId, int pageNumber, int pageSize, int year)
     {
         _context = (CompanyDbContext)_contextService.CreateDbContextInstance(companyId);
         _queryRepository.SetDbContextInstance(_context);
 
-        return await _queryRepository.GetAll(false).OrderByDescending(p => p.Date).ToPagedListAsync(pageNumber,
+        string startingDateString = "01.01." + year;
+        string endDateString = "31.12." + year;
+
+        return await _queryRepository.GetWhere(p=>p.Date >= Convert.ToDateTime(startingDateString)&& p.Date<=Convert.ToDateTime(endDateString)).OrderByDescending(p => p.CreatedDate).ToPagedListAsync(pageNumber,
             pageSize);
     }
 
@@ -69,5 +73,39 @@ public class BookEntryService : IBookEntryService
         _context = (CompanyDbContext)_contextService.CreateDbContextInstance(companyId);
         _queryRepository.SetDbContextInstance(_context);
         return _queryRepository.GetAll().Count();
+    }
+
+    public async Task<BookEntry> RemoveByIdAsync(string id, string companyId)
+    {
+        _context = (CompanyDbContext)_contextService.CreateDbContextInstance(companyId);
+        _commandRepository.SetDbContextInstance(_context);
+        _unitOfWork.SetDbContextInstance(_context);
+        _queryRepository.SetDbContextInstance(_context);
+
+        BookEntry bookEntry = await _queryRepository.GetById(id);
+        _commandRepository.Remove(bookEntry);
+        await _unitOfWork.SaveChangesAsync();
+
+        return bookEntry;
+    }
+
+    public async Task<BookEntry> GetByIdAsync(string id, string companyId)
+    {
+        _context = (CompanyDbContext)_contextService.CreateDbContextInstance(companyId);
+        _queryRepository.SetDbContextInstance(_context);
+
+        return await _queryRepository.GetById(id);
+    }
+
+    public async Task<BookEntry> UpdateAsync(BookEntry bookEntry, string companyId)
+    {
+        _context = (CompanyDbContext)_contextService.CreateDbContextInstance(companyId);
+        _commandRepository.SetDbContextInstance(_context);
+        _unitOfWork.SetDbContextInstance(_context);
+
+        _commandRepository.Update(bookEntry);
+        await _unitOfWork.SaveChangesAsync();
+
+        return bookEntry;
     }
 }

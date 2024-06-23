@@ -2,11 +2,6 @@
 using OnlineMuhasebeServer.Application.Features.CompanyFeatures.ReportFeatures.Commands.RequestReport;
 using OnlineMuhasebeServer.Application.Services.CompanyServices;
 using Shouldly;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OnlineMuhasebeServer.UnitTest.Features.CompanyFeatures.ReportFeatures
 {

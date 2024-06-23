@@ -10,13 +10,12 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { ValidInputDirective } from '../../../common/directives/valid-input.directive';
 import { ToastrService, ToastrType } from '../../../common/services/toastr.service';
 import { LoadingButtonComponent } from '../../../common/component/loading-button/loading-button.component';
-import { RemoveByIdUcafModel } from './models/remove-by-id-ucaf.model';
 import { SwalService } from '../../../common/services/swal.service';
 import { ExcelLoadingButtonComponent } from '../../../common/component/excel-loading-button/excel-loading-button.component';
 import { ReportRequestModel } from '../../../common/models/report-request.model';
 import { ReportService } from '../reports/services/report.service';
-import { mode } from 'crypto-ts';
 import { Router } from '@angular/router';
+import { RemoveByIdModel } from '../../../common/models/remove-by-id.model';
 
 @Component({
   selector: 'app-ucafs',
@@ -118,7 +117,7 @@ constructor(
   removeById(id:string){
 
     this._swal.callSwal("Sil","Sil?","Hesap planı kodunu silmek istiyor musunuz?",()=>{
-      let model=new RemoveByIdUcafModel();
+      let model=new RemoveByIdModel();
       model.id=id;
 
       this._ucaf.removeById(model,res=>{
