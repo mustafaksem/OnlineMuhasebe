@@ -14,7 +14,6 @@ Bu proje, Clean Architecture ve Angular kullanılarak geliştirilmiş bir online
 - **Frontend**: Angular, Admin LTE, Toastr, ngRx, CryptoJS
  
 
-
 ## Katmanlı Mimari
 
 ### 1. Presentation Layer (Sunum Katmanı)
